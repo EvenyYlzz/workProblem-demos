@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+    <button id="btn1">
+      按钮一
+    </button>
+    <button id="btn2">
+      按钮二
+    </button>
+
+    <script type="module">
+
+      import mapArrayToObject from './mapArrayToObject.js'
+
+      let arr = []
+      let list = []
+      // 生成10000条假数据
+      for (let i = 0; i<10000; i++) {
+        arr.push({
+          id: `index${i}`,
+          height: 11,
+          width: 22,
+        })
+        list.push({
+          id: `index${i}`,
+          margin: 11,
+          padding: 22,
+        })
+      }
+      
+      let btn1 = document.getElementById('btn1')
+      btn1.addEventListener('click', () => {
+        console.time('click1')
+        list.map(i => {
+          return {
+            ...i,
+            item: arr.find(k => k.id === i.id),
+          }
+        })
+        console.timeEnd('click1')
+      });
+
+      let btn2 = document.getElementById('btn2')
+      btn2.addEventListener('click', () => {
+        console.time('click2')
+        const newObject = mapArrayToObject(arr, 'id')
+        list.map(i => {
+          return {
+            ...i,
+            item: newObject[i.id],
+          }
+        })
+        console.timeEnd('click2')
+      });
+    </script>
+
+</body>
+</html>
